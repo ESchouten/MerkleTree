@@ -1,5 +1,5 @@
 package com.erikschouten.merkletree.classes
 
-interface Hashable {
+interface MerkleNode {
   fun sha3(): ByteArray
 }

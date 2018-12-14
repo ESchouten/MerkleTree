@@ -1,11 +1,11 @@
 package com.erikschouten.merkletree
 
 import com.erikschouten.merkletree.classes.Hash
-import com.erikschouten.merkletree.classes.Hashable
-import java.security.MessageDigest
+import com.erikschouten.merkletree.classes.MerkleNode
+import org.bouncycastle.jcajce.provider.digest.SHA3
 import java.util.*
 
-class Leaf : Hashable {
+class Leaf : MerkleNode {
 
   val hash: Hash?
   val data: Pair<String, UUID>?
@@ -23,8 +23,7 @@ class Leaf : Hashable {
   override fun sha3(): ByteArray {
     return when {
       data != null -> {
-        val md = MessageDigest.getInstance("SHA-3")
-        md.digest("${data.first}${data.second}".toByteArray())
+        SHA3.Digest224().digest("${data.first}${data.second}".toByteArray())
       }
       hash != null -> hash.sha3()
       else -> throw Exception("Error generating sha3 value")
