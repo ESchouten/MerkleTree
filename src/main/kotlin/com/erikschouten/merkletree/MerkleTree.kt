@@ -20,7 +20,7 @@ data class MerkleTree<out A : MerkleNode, out B : MerkleNode>(val left: A, val r
           }
         }
       }
-      return merkleNodes[0]
+      return merkleNodes.first()
     }
   }
 }
