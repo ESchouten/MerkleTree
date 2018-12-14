@@ -1,4 +1,4 @@
-package com.erikschouten.merkletree.classes
+package com.erikschouten.merkletree
 
 interface MerkleNode {
   fun sha3(): ByteArray

@@ -1,6 +1,7 @@
 package com.erikschouten.merkletree
 
-import com.erikschouten.merkletree.classes.Hash
+import com.erikschouten.merkletree.leaf.Data
+import com.erikschouten.merkletree.leaf.Hash
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -15,10 +16,10 @@ class MerkleTreeTest {
 
         MerkleTree.build(
             listOf(
-                Leaf(billOfLading),
-                Leaf(commercialInvoice),
-                Leaf(packingList),
-                Leaf(letterOfCredit)
+                Data(billOfLading),
+                Data(commercialInvoice),
+                Data(packingList),
+                Data(letterOfCredit)
             )
         )
     }
@@ -33,11 +34,11 @@ class MerkleTreeTest {
 
         MerkleTree.build(
             listOf(
-                Leaf(billOfLading),
-                Leaf(commercialInvoice),
-                Leaf(packingList),
-                Leaf(letterOfCredit),
-                Leaf(waybill)
+                Data(billOfLading),
+                Data(commercialInvoice),
+                Data(packingList),
+                Data(letterOfCredit),
+                Data(waybill)
             )
         )
     }
@@ -45,15 +46,15 @@ class MerkleTreeTest {
     @Test
     fun singleMerkleNodeTest() {
         val billOfLading = "data:application/pdf;base64,BillOfLading"
-        MerkleTree.build(listOf(Leaf(billOfLading)))
+        MerkleTree.build(listOf(Data(billOfLading)))
     }
 
     @Test
     fun partialTreeTest() {
-        val billOfLading = Leaf("data:application/pdf;base64,BillOfLading")
-        val commercialInvoice = Leaf("data:application/pdf;base64,CommercialInvoice")
-        val packingList = Leaf("data:application/pdf;base64,PackingList")
-        val letterOfCredit = Leaf("data:application/pdf;base64,LetterOfCredit")
+        val billOfLading = Data("data:application/pdf;base64,BillOfLading")
+        val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
+        val packingList = Data("data:application/pdf;base64,PackingList")
+        val letterOfCredit = Data("data:application/pdf;base64,LetterOfCredit")
 
         val merkleTree = MerkleTree.build(
             listOf(
@@ -69,10 +70,13 @@ class MerkleTreeTest {
                 billOfLading,
                 commercialInvoice,
                 packingList,
-                Leaf(Hash(letterOfCredit.sha3()))
+                Hash(letterOfCredit.sha3())
             )
         )
 
-        assertEquals(Hash(merkleTree.sha3()), Hash(merkleTreeWithHash.sha3()))
+        assertEquals(
+            Hash(merkleTree.sha3()),
+            Hash(merkleTreeWithHash.sha3())
+        )
     }
 }
