@@ -6,10 +6,10 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
-class MerkleTreeTest {
+class MerkleTreeTests {
 
     @Test
-    fun merkleTreeTest() {
+    fun evenTreeTest() {
         val billOfLading = "data:application/pdf;base64,BillOfLading"
         val commercialInvoice = "data:application/pdf;base64,CommercialInvoice"
         val packingList = "data:application/pdf;base64,PackingList"
@@ -26,7 +26,7 @@ class MerkleTreeTest {
     }
 
     @Test
-    fun merkleTreeUnevenTest() {
+    fun unevenTreeTest() {
         val billOfLading = "data:application/pdf;base64,BillOfLading"
         val commercialInvoice = "data:application/pdf;base64,CommercialInvoice"
         val packingList = "data:application/pdf;base64,PackingList"
@@ -45,7 +45,7 @@ class MerkleTreeTest {
     }
 
     @Test
-    fun singleMerkleNodeTest() {
+    fun singleNodeTest() {
         val billOfLading = "data:application/pdf;base64,BillOfLading"
         MerkleTree.build(listOf(Data(billOfLading)))
     }
@@ -107,5 +107,36 @@ class MerkleTreeTest {
         )
 
         assertNotEquals(Hash(merkletree), Hash(merkletree2))
+    }
+
+    @Test
+    fun onlyHashesTest() {
+        val billOfLading = Data("data:application/pdf;base64,BillOfLading")
+        val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
+        val packingList = Data("data:application/pdf;base64,PackingList")
+        val letterOfCredit = Data("data:application/pdf;base64,LetterOfCredit")
+
+        val merkleTree = MerkleTree.build(
+            listOf(
+                billOfLading,
+                commercialInvoice,
+                packingList,
+                letterOfCredit
+            )
+        )
+
+        val merkleTreeWithHash = MerkleTree.build(
+            listOf(
+                Hash(billOfLading),
+                Hash(commercialInvoice),
+                Hash(packingList),
+                Hash(letterOfCredit)
+            )
+        )
+
+        assertEquals(
+            Hash(merkleTree),
+            Hash(merkleTreeWithHash)
+        )
     }
 }
