@@ -13,7 +13,7 @@ class MerkleTreeTest {
         val packingList = "data:application/pdf;base64,PackingList"
         val letterOfCredit = "data:application/pdf;base64,LetterOfCredit"
 
-        val merkleTree = MerkleTree.build(
+        MerkleTree.build(
             listOf(
                 Leaf(billOfLading),
                 Leaf(commercialInvoice),
@@ -21,8 +21,6 @@ class MerkleTreeTest {
                 Leaf(letterOfCredit)
             )
         )
-
-        println(Hash(merkleTree.sha3()))
     }
 
     @Test
@@ -33,7 +31,7 @@ class MerkleTreeTest {
         val letterOfCredit = "data:application/pdf;base64,LetterOfCredit"
         val waybill = "data:application/pdf;base64,Waybill"
 
-        val merkleTree = MerkleTree.build(
+        MerkleTree.build(
             listOf(
                 Leaf(billOfLading),
                 Leaf(commercialInvoice),
@@ -42,17 +40,12 @@ class MerkleTreeTest {
                 Leaf(waybill)
             )
         )
-
-        println(Hash(merkleTree.sha3()))
     }
 
     @Test
     fun singleMerkleNodeTest() {
         val billOfLading = "data:application/pdf;base64,BillOfLading"
-
-        val merkleTree = MerkleTree.build(listOf(Leaf(billOfLading)))
-
-        println(Hash(merkleTree.sha3()))
+        MerkleTree.build(listOf(Leaf(billOfLading)))
     }
 
     @Test
@@ -61,7 +54,6 @@ class MerkleTreeTest {
         val commercialInvoice = Leaf("data:application/pdf;base64,CommercialInvoice")
         val packingList = Leaf("data:application/pdf;base64,PackingList")
         val letterOfCredit = Leaf("data:application/pdf;base64,LetterOfCredit")
-
 
         val merkleTree = MerkleTree.build(
             listOf(
@@ -81,9 +73,6 @@ class MerkleTreeTest {
             )
         )
 
-        val hash1 = Hash(merkleTree.sha3())
-        val hash2 = Hash(merkleTreeWithHash.sha3())
-
-        assertEquals(hash1, hash2)
+        assertEquals(Hash(merkleTree.sha3()), Hash(merkleTreeWithHash.sha3()))
     }
 }
