@@ -10,44 +10,44 @@ class MerkleTreeTests {
 
     @Test
     fun evenTreeTest() {
-        val billOfLading = "data:application/pdf;base64,BillOfLading"
-        val commercialInvoice = "data:application/pdf;base64,CommercialInvoice"
-        val packingList = "data:application/pdf;base64,PackingList"
-        val letterOfCredit = "data:application/pdf;base64,LetterOfCredit"
+        val billOfLading = Data("data:application/pdf;base64,BillOfLading")
+        val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
+        val packingList = Data("data:application/pdf;base64,PackingList")
+        val letterOfCredit = Data("data:application/pdf;base64,LetterOfCredit")
 
         MerkleTree.build(
             listOf(
-                Data(billOfLading),
-                Data(commercialInvoice),
-                Data(packingList),
-                Data(letterOfCredit)
+                billOfLading,
+                commercialInvoice,
+                packingList,
+                letterOfCredit
             )
         )
     }
 
     @Test
     fun unevenTreeTest() {
-        val billOfLading = "data:application/pdf;base64,BillOfLading"
-        val commercialInvoice = "data:application/pdf;base64,CommercialInvoice"
-        val packingList = "data:application/pdf;base64,PackingList"
-        val letterOfCredit = "data:application/pdf;base64,LetterOfCredit"
-        val waybill = "data:application/pdf;base64,Waybill"
+        val billOfLading = Data("data:application/pdf;base64,BillOfLading")
+        val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
+        val packingList = Data("data:application/pdf;base64,PackingList")
+        val letterOfCredit = Data("data:application/pdf;base64,LetterOfCredit")
+        val waybill = Data("data:application/pdf;base64,Waybill")
 
         MerkleTree.build(
             listOf(
-                Data(billOfLading),
-                Data(commercialInvoice),
-                Data(packingList),
-                Data(letterOfCredit),
-                Data(waybill)
+                billOfLading,
+                commercialInvoice,
+                packingList,
+                letterOfCredit,
+                waybill
             )
         )
     }
 
     @Test
     fun singleNodeTest() {
-        val billOfLading = "data:application/pdf;base64,BillOfLading"
-        MerkleTree.build(listOf(Data(billOfLading)))
+        val billOfLading = Data("data:application/pdf;base64,BillOfLading")
+        MerkleTree.build(listOf(billOfLading))
     }
 
     @Test
