@@ -1,16 +1,15 @@
 package com.erikschouten.merkletree.leaf
 
 import com.erikschouten.merkletree.MerkleNode
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.bouncycastle.jcajce.provider.digest.SHA3
 import java.util.*
 
-class Data(value: String) : MerkleNode {
+data class Data(val value: String) : MerkleNode {
 
-  val value: Pair<String, UUID> = Pair(value, UUID.randomUUID())
+  private val nonce: UUID = UUID.randomUUID()
 
-  override fun sha3() = SHA3.Digest224().digest((value.first + value.second.toString()).toByteArray())!!
+  constructor(obj: Any) : this(jacksonObjectMapper().writeValueAsString(obj))
 
-  override fun toString(): String {
-    return "Data(value=$value)"
-  }
+  override fun sha3() = SHA3.Digest224().digest((value + nonce.toString()).toByteArray())!!
 }

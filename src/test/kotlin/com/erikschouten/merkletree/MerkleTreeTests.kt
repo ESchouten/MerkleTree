@@ -13,14 +13,14 @@ class MerkleTreeTests {
         val billOfLading = Data("data:application/pdf;base64,BillOfLading")
         val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
         val packingList = Data("data:application/pdf;base64,PackingList")
-        val letterOfCredit = Data("data:application/pdf;base64,LetterOfCredit")
+        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
 
         MerkleTree.build(
             listOf(
                 billOfLading,
                 commercialInvoice,
                 packingList,
-                letterOfCredit
+                tradelaneData
             )
         )
     }
@@ -30,7 +30,7 @@ class MerkleTreeTests {
         val billOfLading = Data("data:application/pdf;base64,BillOfLading")
         val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
         val packingList = Data("data:application/pdf;base64,PackingList")
-        val letterOfCredit = Data("data:application/pdf;base64,LetterOfCredit")
+        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
         val waybill = Data("data:application/pdf;base64,Waybill")
 
         MerkleTree.build(
@@ -38,7 +38,7 @@ class MerkleTreeTests {
                 billOfLading,
                 commercialInvoice,
                 packingList,
-                letterOfCredit,
+                tradelaneData,
                 waybill
             )
         )
@@ -55,23 +55,23 @@ class MerkleTreeTests {
         val billOfLading = Data("data:application/pdf;base64,BillOfLading")
         val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
         val packingList = Data("data:application/pdf;base64,PackingList")
-        val letterOfCredit = Data("data:application/pdf;base64,LetterOfCredit")
+        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
 
         val merkleTree = MerkleTree.build(
             listOf(
                 billOfLading,
                 commercialInvoice,
                 packingList,
-                letterOfCredit
+                tradelaneData
             )
         )
 
         val merkleTreeWithHash = MerkleTree.build(
             listOf(
-                billOfLading,
+                Hash(billOfLading),
                 commercialInvoice,
                 packingList,
-                Hash(letterOfCredit)
+                Hash(tradelaneData)
             )
         )
 
@@ -86,14 +86,14 @@ class MerkleTreeTests {
         val billOfLading = "data:application/pdf;base64,BillOfLading"
         val commercialInvoice = "data:application/pdf;base64,CommercialInvoice"
         val packingList = "data:application/pdf;base64,PackingList"
-        val letterOfCredit = "data:application/pdf;base64,LetterOfCredit"
+        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
 
         val merkletree = MerkleTree.build(
             listOf(
                 Data(billOfLading),
                 Data(commercialInvoice),
                 Data(packingList),
-                Data(letterOfCredit)
+                Data(tradelaneData)
             )
         )
 
@@ -102,7 +102,7 @@ class MerkleTreeTests {
                 Data(billOfLading),
                 Data(commercialInvoice),
                 Data(packingList),
-                Data(letterOfCredit)
+                Data(tradelaneData)
             )
         )
 
@@ -114,14 +114,14 @@ class MerkleTreeTests {
         val billOfLading = Data("data:application/pdf;base64,BillOfLading")
         val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
         val packingList = Data("data:application/pdf;base64,PackingList")
-        val letterOfCredit = Data("data:application/pdf;base64,LetterOfCredit")
+        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
 
         val merkleTree = MerkleTree.build(
             listOf(
                 billOfLading,
                 commercialInvoice,
                 packingList,
-                letterOfCredit
+                tradelaneData
             )
         )
 
@@ -130,7 +130,7 @@ class MerkleTreeTests {
                 Hash(billOfLading),
                 Hash(commercialInvoice),
                 Hash(packingList),
-                Hash(letterOfCredit)
+                Hash(tradelaneData)
             )
         )
 
@@ -139,4 +139,7 @@ class MerkleTreeTests {
             Hash(merkleTreeWithHash)
         )
     }
+
+    inner class TestTradelane(val id: String, val transporter: TestTransporter)
+    inner class TestTransporter(val name: String, val employeeCount: Int)
 }
