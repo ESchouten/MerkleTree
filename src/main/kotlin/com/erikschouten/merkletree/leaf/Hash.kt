@@ -11,8 +11,4 @@ data class Hash(
     constructor(merkleNode: MerkleNode) : this(merkleNode.sha3())
 
     override fun sha3() = Base64.decode(value)!!
-
-    override fun toString(): String {
-        return "Hash(value='$value')"
-    }
 }
