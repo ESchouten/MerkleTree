@@ -6,10 +6,6 @@ class MerkleTree private constructor(val left: MerkleNode, val right: MerkleNode
 
     override fun sha3() = SHA3.Digest224().digest(left.sha3() + right.sha3())!!
 
-    override fun toString(): String {
-        return "MerkleTree(left=$left, right=$right)"
-    }
-
     companion object {
         fun build(data: List<MerkleNode>): MerkleNode {
             var merkleNodes = data
@@ -28,5 +24,27 @@ class MerkleTree private constructor(val left: MerkleNode, val right: MerkleNode
             //Return root
             return merkleNodes.first()
         }
+    }
+
+    override fun toString(): String {
+        return "MerkleTree(left=$left, right=$right)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as MerkleTree
+
+        if (left != other.left) return false
+        if (right != other.right) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = left.hashCode()
+        result = 31 * result + right.hashCode()
+        return result
     }
 }
