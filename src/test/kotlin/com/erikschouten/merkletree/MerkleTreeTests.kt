@@ -14,7 +14,8 @@ class MerkleTreeTests {
     fun enableDefaultTypingTest() {
         val tradelaneData = TestTradelane("Hauwert", TestTransporter("Erik", 1))
         val json = jacksonObjectMapper().enableDefaultTyping().writeValueAsString(tradelaneData)
-        println(json)
+        val obj = jacksonObjectMapper().enableDefaultTyping().readValue<TestTradelane>(json)
+        assertEquals(tradelaneData, obj)
     }
 
     @Test
@@ -40,7 +41,6 @@ class MerkleTreeTests {
         val obj = objectmapper.readValue<MerkleTree>(json)
 
         assertEquals(merkleTree, obj)
-
     }
 
     @Test

@@ -1,6 +1,6 @@
 package com.erikschouten.merkletree
 
-data class MerkleTree(val merkleNode: IMerkleNode): IMerkleNode {
+data class MerkleTree(val merkleNode: IMerkleNode) : IMerkleNode {
 
     override fun sha3() = merkleNode.sha3()
 
