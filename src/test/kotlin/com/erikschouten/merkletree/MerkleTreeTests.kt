@@ -26,16 +26,9 @@ class MerkleTreeTests {
             )
         )
 
-        val objectMapper = jacksonObjectMapper()
-            .apply {
-                //            registerSubtypes(Data::class.java, Hash::class.java, MerkleTree::class.java)
-            enableDefaultTyping()
-//            registerKotlinModule()
-            }
-
-        val json = objectMapper.writeValueAsString(billOfLading)
+        val json = jacksonObjectMapper().writeValueAsString(merkleTree)
         println(json)
-        val obj = objectMapper.readValue<MerkleNode>(json)
+        val obj = jacksonObjectMapper().readValue<MerkleNode>(json)
         println(obj)
 
     }
