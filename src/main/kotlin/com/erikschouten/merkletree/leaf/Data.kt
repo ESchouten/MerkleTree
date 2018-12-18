@@ -8,7 +8,7 @@ import java.util.*
 class Data private constructor(
     val value: String,
     val className: String,
-    val nonce: UUID = UUID.randomUUID()
+    val nonce: String = UUID.randomUUID().toString()
 ) : MerkleNode {
 
     constructor(obj: Any) : this(
@@ -18,7 +18,7 @@ class Data private constructor(
 
     fun get() = jacksonObjectMapper().readValue(value, Class.forName(className))!!
 
-    override fun sha3() = SHA3.Digest224().digest((value + nonce.toString()).toByteArray())!!
+    override fun sha3() = SHA3.Digest224().digest((value + nonce).toByteArray())!!
 
     override fun toString(): String {
         return "Data(value='$value', className=$className, nonce=$nonce)"
