@@ -5,11 +5,16 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.bouncycastle.jcajce.provider.digest.SHA3
 import java.util.*
 
-class Data(obj: Any) : MerkleNode {
+class Data private constructor(
+    val value: String,
+    val className: String,
+    val nonce: UUID = UUID.randomUUID()
+) : MerkleNode {
 
-    private val value: String = jacksonObjectMapper().writeValueAsString(obj)
-    private val className = obj::class.qualifiedName
-    private val nonce: UUID = UUID.randomUUID()
+    constructor(obj: Any) : this(
+        value = jacksonObjectMapper().writeValueAsString(obj),
+        className = obj::class.qualifiedName!!
+    )
 
     fun get() = jacksonObjectMapper().readValue(value, Class.forName(className))!!
 

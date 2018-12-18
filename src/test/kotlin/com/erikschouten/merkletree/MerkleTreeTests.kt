@@ -2,11 +2,43 @@ package com.erikschouten.merkletree
 
 import com.erikschouten.merkletree.leaf.Data
 import com.erikschouten.merkletree.leaf.Hash
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 class MerkleTreeTests {
+
+    @Test
+    fun jsonTest() {
+        val billOfLading = Data("data:application/pdf;base64,BillOfLading")
+        val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
+        val packingList = Data("data:application/pdf;base64,PackingList")
+        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
+
+        val merkleTree = MerkleTree.build(
+            listOf(
+                billOfLading,
+                commercialInvoice,
+                packingList,
+                tradelaneData
+            )
+        )
+
+        val objectMapper = jacksonObjectMapper()
+            .apply {
+                //            registerSubtypes(Data::class.java, Hash::class.java, MerkleTree::class.java)
+            enableDefaultTyping()
+//            registerKotlinModule()
+            }
+
+        val json = objectMapper.writeValueAsString(billOfLading)
+        println(json)
+        val obj = objectMapper.readValue<MerkleNode>(json)
+        println(obj)
+
+    }
 
     @Test
     fun dataTypeTest() {
