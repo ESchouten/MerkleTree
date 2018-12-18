@@ -11,6 +11,13 @@ import kotlin.test.assertNotEquals
 class MerkleTreeTests {
 
     @Test
+    fun enableDefaultTypingTest() {
+        val tradelaneData = TestTradelane("Hauwert", TestTransporter("Erik", 1))
+        val json = jacksonObjectMapper().enableDefaultTyping().writeValueAsString(tradelaneData)
+        println(json)
+    }
+
+    @Test
     fun jsonConversionTest() {
         val billOfLading = Data("data:application/pdf;base64,BillOfLading")
         val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
@@ -26,8 +33,11 @@ class MerkleTreeTests {
             )
         )
 
-        val json = jacksonObjectMapper().writeValueAsString(merkleTree)
-        val obj = jacksonObjectMapper().readValue<MerkleNode>(json)
+        val objectmapper = jacksonObjectMapper().enableDefaultTyping()
+
+        val json = objectmapper.writeValueAsString(merkleTree)
+        println(json)
+        val obj = objectmapper.readValue<MerkleTree>(json)
 
         assertEquals(merkleTree, obj)
 

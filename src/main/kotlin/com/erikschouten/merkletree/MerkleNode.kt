@@ -1,8 +1,8 @@
 package com.erikschouten.merkletree
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo
+import org.bouncycastle.jcajce.provider.digest.SHA3
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-interface MerkleNode {
-    fun sha3(): ByteArray
+data class MerkleNode(val left: IMerkleNode, val right: IMerkleNode) : IMerkleNode {
+
+    override fun sha3() = SHA3.Digest224().digest(left.sha3() + right.sha3())!!
 }
