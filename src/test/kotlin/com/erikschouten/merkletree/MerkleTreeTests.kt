@@ -9,6 +9,12 @@ import kotlin.test.assertNotEquals
 class MerkleTreeTests {
 
     @Test
+    fun dataTypeTest() {
+        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
+        assert(tradelaneData.get() is TestTradelane)
+    }
+
+    @Test
     fun evenTreeTest() {
         val billOfLading = Data("data:application/pdf;base64,BillOfLading")
         val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
@@ -139,7 +145,4 @@ class MerkleTreeTests {
             Hash(merkleTreeWithHash)
         )
     }
-
-    inner class TestTradelane(val id: String, val transporter: TestTransporter)
-    inner class TestTransporter(val name: String, val employeeCount: Int)
 }
