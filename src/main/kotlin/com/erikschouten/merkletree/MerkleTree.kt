@@ -7,7 +7,7 @@ data class MerkleTree(val merkle: Merkle) : Merkle {
 
     override fun sha3() = merkle.sha3()
 
-    fun getData(): List<Any> {
+    fun findData(): List<Any> {
         val data = mutableListOf<Any>()
         val stack = Stack<MerkleNode>()
 

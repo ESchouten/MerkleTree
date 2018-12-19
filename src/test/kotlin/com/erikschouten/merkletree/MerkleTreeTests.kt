@@ -76,11 +76,11 @@ class MerkleTreeTests {
 
         assertEquals(
             dataList.size,
-            merkleTree.getData().size,
+            merkleTree.findData().size,
             "Incorrect/incomplete data found (even tree)"
         )
 
-        assert(dataList.map { it.get() }.containsAll(merkleTree.getData()))
+        assert(dataList.map { it.get() }.containsAll(merkleTree.findData()))
     }
 
     @Test
@@ -103,11 +103,11 @@ class MerkleTreeTests {
 
         assertEquals(
             dataList.size,
-            merkleTree.getData().size,
+            merkleTree.findData().size,
             "Incorrect/incomplete data found (uneven tree)"
         )
 
-        assert(dataList.map { it.get() }.containsAll(merkleTree.getData()))
+        assert(dataList.map { it.get() }.containsAll(merkleTree.findData()))
     }
 
     @Test
@@ -148,11 +148,11 @@ class MerkleTreeTests {
 
         assertEquals(
             2,
-            merkleTreeWithHash.getData().size,
+            merkleTreeWithHash.findData().size,
             "Incorrect/incomplete data found (partial tree)"
         )
 
-        assert(listOf(commercialInvoice, packingList).map { it.get() }.containsAll(merkleTreeWithHash.getData()))
+        assert(listOf(commercialInvoice, packingList).map { it.get() }.containsAll(merkleTreeWithHash.findData()))
     }
 
     @Test
@@ -217,8 +217,8 @@ class MerkleTreeTests {
             Hash(merkleTreeWithHash)
         )
 
-        assertEquals(0, merkleTreeWithHash.getData().size)
+        assertEquals(0, merkleTreeWithHash.findData().size)
 
-        assertEquals(dataList.size, merkleTree.getData().size)
+        assertEquals(dataList.size, merkleTree.findData().size)
     }
 }
