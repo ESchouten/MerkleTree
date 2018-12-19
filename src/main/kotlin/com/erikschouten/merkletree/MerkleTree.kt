@@ -1,11 +1,13 @@
 package com.erikschouten.merkletree
 
-data class MerkleTree(val merkleNode: IMerkleNode) : IMerkleNode {
+import java.util.*
 
-    override fun sha3() = merkleNode.sha3()
+data class MerkleTree(val merkle: Merkle) : Merkle {
+
+    override fun sha3() = merkle.sha3()
 
     companion object {
-        fun build(data: List<IMerkleNode>): MerkleTree {
+        fun build(data: List<Merkle>): MerkleTree {
             var merkleNodes = data
             //Combine nodes in parent nodes until the root is generated
             while (merkleNodes.size > 1) {

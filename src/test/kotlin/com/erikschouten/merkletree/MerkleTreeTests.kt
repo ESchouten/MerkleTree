@@ -63,7 +63,7 @@ class MerkleTreeTests {
                 tradelaneData
             )
         )
-        assertEquals((((merkleTree.merkleNode as MerkleNode).left as MerkleNode).left as SecureData), billOfLading, "Wrong (de)serialisation")
+        assertEquals((((merkleTree.merkle as MerkleNode).left as MerkleNode).left as SecureData), billOfLading, "Wrong (de)serialisation")
     }
 
     @Test

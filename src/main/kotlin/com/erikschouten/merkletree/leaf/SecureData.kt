@@ -1,6 +1,6 @@
 package com.erikschouten.merkletree.leaf
 
-import com.erikschouten.merkletree.IMerkleNode
+import com.erikschouten.merkletree.Merkle
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.bouncycastle.jcajce.provider.digest.SHA3
 import java.util.*
@@ -8,7 +8,7 @@ import java.util.*
 class SecureData private constructor(
     val value: String,
     val nonce: String = UUID.randomUUID().toString()
-) : IMerkleNode {
+) : Merkle {
 
     constructor(obj: Any) : this(
         value = jacksonObjectMapper().enableDefaultTyping().writeValueAsString(Data(obj))
