@@ -41,5 +41,5 @@ class SecureData private constructor(
     }
 
     //Used to wrap object for JSon class definition
-    class Data(val value: Any)
+    private class Data(val value: Any)
 }
