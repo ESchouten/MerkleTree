@@ -56,7 +56,7 @@ class MerkleTreeTests {
         val packingList = SecureData("data:application/pdf;base64,PackingList")
         val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
 
-        MerkleTree.build(
+        val merkleTree = MerkleTree.build(
             listOf(
                 billOfLading,
                 commercialInvoice,
@@ -64,6 +64,7 @@ class MerkleTreeTests {
                 tradelaneData
             )
         )
+        assertEquals((((merkleTree.merkleNode as MerkleNode).left as MerkleNode).left as SecureData), billOfLading, "Wrong (de)serialisation")
     }
 
     @Test
