@@ -1,10 +1,38 @@
 package com.erikschouten.merkletree
 
+import com.erikschouten.merkletree.leaf.SecureData
 import java.util.*
 
 data class MerkleTree(val merkle: Merkle) : Merkle {
 
     override fun sha3() = merkle.sha3()
+
+    fun getData(): List<Any> {
+        val data = mutableListOf<Any>()
+        val stack = Stack<MerkleNode>()
+
+        if (merkle is MerkleNode) {
+            stack.push(merkle)
+        } else if (merkle is SecureData) {
+            data.add(merkle.get())
+        }
+
+        while (stack.isNotEmpty()) {
+            val current = stack.pop()
+
+            val merkles = listOf(current.left, current.right)
+
+            for (merkle in merkles) {
+                if (merkle is MerkleNode) {
+                    stack.push(merkle)
+                } else if (merkle is SecureData) {
+                    data.add(merkle.get())
+                }
+            }
+        }
+
+        return data
+    }
 
     companion object {
         fun build(data: List<Merkle>): MerkleTree {

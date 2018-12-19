@@ -1,7 +1,7 @@
 package com.erikschouten.merkletree
 
-import com.erikschouten.merkletree.leaf.SecureData
 import com.erikschouten.merkletree.leaf.Hash
+import com.erikschouten.merkletree.leaf.SecureData
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.Test
@@ -15,7 +15,12 @@ class MerkleTreeTests {
         val tradelaneData = TestTradelane("Hauwert", TestTransporter("Erik", 1))
         val json = jacksonObjectMapper().enableDefaultTyping().writeValueAsString(tradelaneData)
         val obj = jacksonObjectMapper().enableDefaultTyping().readValue<TestTradelane>(json)
-        assertEquals(tradelaneData, obj)
+
+        assertEquals(
+            tradelaneData,
+            obj,
+            "Data (de)serialisation gone wrong"
+        )
     }
 
     @Test
@@ -39,12 +44,17 @@ class MerkleTreeTests {
         val json = objectmapper.writeValueAsString(merkleTree)
         val obj = objectmapper.readValue<MerkleTree>(json)
 
-        assertEquals(merkleTree, obj)
+        assertEquals(
+            merkleTree,
+            obj,
+            "Data (de)serialisation gone wrong"
+        )
     }
 
     @Test
     fun dataTypeTest() {
         val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
+
         assert(tradelaneData.get() is TestTradelane)
     }
 
@@ -55,15 +65,22 @@ class MerkleTreeTests {
         val packingList = SecureData("data:application/pdf;base64,PackingList")
         val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
 
-        val merkleTree = MerkleTree.build(
-            listOf(
-                billOfLading,
-                commercialInvoice,
-                packingList,
-                tradelaneData
-            )
+        val dataList = listOf(
+            billOfLading,
+            commercialInvoice,
+            packingList,
+            tradelaneData
         )
-        assertEquals((((merkleTree.merkle as MerkleNode).left as MerkleNode).left as SecureData), billOfLading, "Wrong (de)serialisation")
+
+        val merkleTree = MerkleTree.build(dataList)
+
+        assertEquals(
+            dataList.size,
+            merkleTree.getData().size,
+            "Incorrect/incomplete data found (even tree)"
+        )
+
+        assert(dataList.map { it.get() }.containsAll(merkleTree.getData()))
     }
 
     @Test
@@ -74,15 +91,23 @@ class MerkleTreeTests {
         val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
         val waybill = SecureData("data:application/pdf;base64,Waybill")
 
-        MerkleTree.build(
-            listOf(
-                billOfLading,
-                commercialInvoice,
-                packingList,
-                tradelaneData,
-                waybill
-            )
+        val dataList = listOf(
+            billOfLading,
+            commercialInvoice,
+            packingList,
+            tradelaneData,
+            waybill
         )
+
+        val merkleTree = MerkleTree.build(dataList)
+
+        assertEquals(
+            dataList.size,
+            merkleTree.getData().size,
+            "Incorrect/incomplete data found (uneven tree)"
+        )
+
+        assert(dataList.map { it.get() }.containsAll(merkleTree.getData()))
     }
 
     @Test
@@ -120,6 +145,14 @@ class MerkleTreeTests {
             Hash(merkleTree),
             Hash(merkleTreeWithHash)
         )
+
+        assertEquals(
+            2,
+            merkleTreeWithHash.getData().size,
+            "Incorrect/incomplete data found (partial tree)"
+        )
+
+        assert(listOf(commercialInvoice, packingList).map { it.get() }.containsAll(merkleTreeWithHash.getData()))
     }
 
     @Test
@@ -147,7 +180,11 @@ class MerkleTreeTests {
             )
         )
 
-        assertNotEquals(Hash(merkletree), Hash(merkletree2))
+        assertNotEquals(
+            Hash(merkletree),
+            Hash(merkletree2),
+            "Hash not different despite of different nonce"
+        )
     }
 
     @Test
@@ -157,14 +194,14 @@ class MerkleTreeTests {
         val packingList = SecureData("data:application/pdf;base64,PackingList")
         val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
 
-        val merkleTree = MerkleTree.build(
-            listOf(
-                billOfLading,
-                commercialInvoice,
-                packingList,
-                tradelaneData
-            )
+        val dataList = listOf(
+            billOfLading,
+            commercialInvoice,
+            packingList,
+            tradelaneData
         )
+
+        val merkleTree = MerkleTree.build(dataList)
 
         val merkleTreeWithHash = MerkleTree.build(
             listOf(
@@ -179,5 +216,9 @@ class MerkleTreeTests {
             Hash(merkleTree),
             Hash(merkleTreeWithHash)
         )
+
+        assertEquals(0, merkleTreeWithHash.getData().size)
+
+        assertEquals(dataList.size, merkleTree.getData().size)
     }
 }
