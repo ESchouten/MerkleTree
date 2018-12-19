@@ -20,9 +20,7 @@ data class MerkleTree(val merkle: Merkle) : Merkle {
         while (stack.isNotEmpty()) {
             val current = stack.pop()
 
-            val merkles = listOf(current.left, current.right)
-
-            for (merkle in merkles) {
+            for (merkle in listOf(current.left, current.right)) {
                 if (merkle is MerkleNode) {
                     stack.push(merkle)
                 } else if (merkle is SecureData) {
