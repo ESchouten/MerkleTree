@@ -37,7 +37,6 @@ class MerkleTreeTests {
         val objectmapper = jacksonObjectMapper().enableDefaultTyping()
 
         val json = objectmapper.writeValueAsString(merkleTree)
-        println(json)
         val obj = objectmapper.readValue<MerkleTree>(json)
 
         assertEquals(merkleTree, obj)
