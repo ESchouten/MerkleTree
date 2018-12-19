@@ -10,9 +10,7 @@ class SecureData private constructor(
     val nonce: String = UUID.randomUUID().toString()
 ) : Merkle {
 
-    constructor(obj: Any) : this(
-        value = jacksonObjectMapper().enableDefaultTyping().writeValueAsString(Data(obj))
-    )
+    constructor(obj: Any) : this(jacksonObjectMapper().enableDefaultTyping().writeValueAsString(Data(obj)))
 
     fun get() = jacksonObjectMapper().enableDefaultTyping().readValue(value, Data::class.java)!!.value
 
