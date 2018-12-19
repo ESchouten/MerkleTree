@@ -1,6 +1,6 @@
 package com.erikschouten.merkletree
 
-import com.erikschouten.merkletree.leaf.Data
+import com.erikschouten.merkletree.leaf.SecureData
 import com.erikschouten.merkletree.leaf.Hash
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -20,10 +20,10 @@ class MerkleTreeTests {
 
     @Test
     fun jsonConversionTest() {
-        val billOfLading = Data("data:application/pdf;base64,BillOfLading")
-        val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
-        val packingList = Data("data:application/pdf;base64,PackingList")
-        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
+        val billOfLading = SecureData("data:application/pdf;base64,BillOfLading")
+        val commercialInvoice = SecureData("data:application/pdf;base64,CommercialInvoice")
+        val packingList = SecureData("data:application/pdf;base64,PackingList")
+        val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
 
         val merkleTree = MerkleTree.build(
             listOf(
@@ -45,16 +45,16 @@ class MerkleTreeTests {
 
     @Test
     fun dataTypeTest() {
-        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
+        val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
         assert(tradelaneData.get() is TestTradelane)
     }
 
     @Test
     fun evenTreeTest() {
-        val billOfLading = Data("data:application/pdf;base64,BillOfLading")
-        val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
-        val packingList = Data("data:application/pdf;base64,PackingList")
-        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
+        val billOfLading = SecureData("data:application/pdf;base64,BillOfLading")
+        val commercialInvoice = SecureData("data:application/pdf;base64,CommercialInvoice")
+        val packingList = SecureData("data:application/pdf;base64,PackingList")
+        val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
 
         MerkleTree.build(
             listOf(
@@ -68,11 +68,11 @@ class MerkleTreeTests {
 
     @Test
     fun unevenTreeTest() {
-        val billOfLading = Data("data:application/pdf;base64,BillOfLading")
-        val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
-        val packingList = Data("data:application/pdf;base64,PackingList")
-        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
-        val waybill = Data("data:application/pdf;base64,Waybill")
+        val billOfLading = SecureData("data:application/pdf;base64,BillOfLading")
+        val commercialInvoice = SecureData("data:application/pdf;base64,CommercialInvoice")
+        val packingList = SecureData("data:application/pdf;base64,PackingList")
+        val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
+        val waybill = SecureData("data:application/pdf;base64,Waybill")
 
         MerkleTree.build(
             listOf(
@@ -87,16 +87,16 @@ class MerkleTreeTests {
 
     @Test
     fun singleNodeTest() {
-        val billOfLading = Data("data:application/pdf;base64,BillOfLading")
+        val billOfLading = SecureData("data:application/pdf;base64,BillOfLading")
         MerkleTree.build(listOf(billOfLading))
     }
 
     @Test
     fun partialTreeTest() {
-        val billOfLading = Data("data:application/pdf;base64,BillOfLading")
-        val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
-        val packingList = Data("data:application/pdf;base64,PackingList")
-        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
+        val billOfLading = SecureData("data:application/pdf;base64,BillOfLading")
+        val commercialInvoice = SecureData("data:application/pdf;base64,CommercialInvoice")
+        val packingList = SecureData("data:application/pdf;base64,PackingList")
+        val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
 
         val merkleTree = MerkleTree.build(
             listOf(
@@ -127,23 +127,23 @@ class MerkleTreeTests {
         val billOfLading = "data:application/pdf;base64,BillOfLading"
         val commercialInvoice = "data:application/pdf;base64,CommercialInvoice"
         val packingList = "data:application/pdf;base64,PackingList"
-        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
+        val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
 
         val merkletree = MerkleTree.build(
             listOf(
-                Data(billOfLading),
-                Data(commercialInvoice),
-                Data(packingList),
-                Data(tradelaneData)
+                SecureData(billOfLading),
+                SecureData(commercialInvoice),
+                SecureData(packingList),
+                SecureData(tradelaneData)
             )
         )
 
         val merkletree2 = MerkleTree.build(
             listOf(
-                Data(billOfLading),
-                Data(commercialInvoice),
-                Data(packingList),
-                Data(tradelaneData)
+                SecureData(billOfLading),
+                SecureData(commercialInvoice),
+                SecureData(packingList),
+                SecureData(tradelaneData)
             )
         )
 
@@ -152,10 +152,10 @@ class MerkleTreeTests {
 
     @Test
     fun onlyHashesTest() {
-        val billOfLading = Data("data:application/pdf;base64,BillOfLading")
-        val commercialInvoice = Data("data:application/pdf;base64,CommercialInvoice")
-        val packingList = Data("data:application/pdf;base64,PackingList")
-        val tradelaneData = Data(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
+        val billOfLading = SecureData("data:application/pdf;base64,BillOfLading")
+        val commercialInvoice = SecureData("data:application/pdf;base64,CommercialInvoice")
+        val packingList = SecureData("data:application/pdf;base64,PackingList")
+        val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
 
         val merkleTree = MerkleTree.build(
             listOf(
