@@ -27,7 +27,7 @@ class MerkleTreeTests {
     fun jsonConversionTest() {
         val billOfLading = SecureData("data:application/pdf;base64,BillOfLading")
         val commercialInvoice = SecureData("data:application/pdf;base64,CommercialInvoice")
-        val packingList = SecureData("data:application/pdf;base64,PackingList")
+        val packingList = Hash(SecureData("data:application/pdf;base64,PackingList"))
         val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
 
         val merkleTree = MerkleTree.build(
