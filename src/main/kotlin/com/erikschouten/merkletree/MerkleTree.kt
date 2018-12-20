@@ -7,14 +7,41 @@ data class MerkleTree(val merkle: Merkle) : Merkle {
 
     override fun sha3() = merkle.sha3()
 
-    fun findData(): List<Any> {
-        val data = mutableListOf<Any>()
+    fun contains(merkle: Merkle) = contains(merkle.sha3())
+    fun contains(sha3: ByteArray): Boolean {
+        val stack = Stack<MerkleNode>()
+
+        if (merkle is MerkleNode) {
+            if (merkle.sha3().contentEquals(sha3)) return true
+            stack.push(merkle)
+        } else if (merkle.sha3().contentEquals(sha3)) {
+            return true
+        }
+
+        while (stack.isNotEmpty()) {
+            val current = stack.pop()
+
+            for (merkle in listOf(current.left, current.right)) {
+                if (merkle is MerkleNode) {
+                    if (merkle.sha3().contentEquals(sha3)) return true
+                    stack.push(merkle)
+                } else if (merkle.sha3().contentEquals(sha3)) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    fun findData(): List<Any> = findSecureData().map { it.get() }
+    fun findSecureData(): List<SecureData> {
+        val data = mutableListOf<SecureData>()
         val stack = Stack<MerkleNode>()
 
         if (merkle is MerkleNode) {
             stack.push(merkle)
         } else if (merkle is SecureData) {
-            data.add(merkle.get())
+            data.add(merkle)
         }
 
         while (stack.isNotEmpty()) {
@@ -24,7 +51,7 @@ data class MerkleTree(val merkle: Merkle) : Merkle {
                 if (merkle is MerkleNode) {
                     stack.push(merkle)
                 } else if (merkle is SecureData) {
-                    data.add(merkle.get())
+                    data.add(merkle)
                 }
             }
         }

@@ -154,6 +154,13 @@ class MerkleTreeTests {
         )
 
         assert(listOf(commercialInvoice, packingList).map { it.get() }.containsAll(merkleTreeWithHash.findData()))
+
+        assert(merkleTreeWithHash.contains(commercialInvoice.sha3()))
+        assert(merkleTreeWithHash.contains(tradelaneData.sha3()))
+
+        val waybill = SecureData("data:application/pdf;base64,Waybill")
+
+        assert(!merkleTreeWithHash.contains(waybill.sha3()))
     }
 
     @Test
