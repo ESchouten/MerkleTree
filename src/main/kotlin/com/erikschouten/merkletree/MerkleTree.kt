@@ -34,7 +34,8 @@ data class MerkleTree(val merkle: Merkle) : Merkle {
 
     companion object {
         fun build(data: List<Merkle>): MerkleTree {
-            var merkleNodes = data
+            //Sorting Merkles to ensure same hash when an identical tree is created
+            var merkleNodes = data.sorted()
             //Combine nodes in parent nodes until the root is generated
             while (merkleNodes.size > 1) {
                 //Put two nodes into one parent node

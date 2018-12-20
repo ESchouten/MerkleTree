@@ -4,6 +4,7 @@ import com.erikschouten.merkletree.leaf.Hash
 import com.erikschouten.merkletree.leaf.SecureData
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.bouncycastle.util.encoders.Base64
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -220,5 +221,38 @@ class MerkleTreeTests {
         assertEquals(0, merkleTreeWithHash.findData().size)
 
         assertEquals(dataList.size, merkleTree.findData().size)
+    }
+
+    @Test
+    fun differentInputSequenceTest() {
+        val billOfLading = SecureData("data:application/pdf;base64,BillOfLading")
+        val commercialInvoice = SecureData("data:application/pdf;base64,CommercialInvoice")
+        val packingList = SecureData("data:application/pdf;base64,PackingList")
+        val tradelaneData = SecureData(TestTradelane("Hauwert", TestTransporter("Erik", 1)))
+
+        val merkleTree = MerkleTree.build(
+            listOf(
+                billOfLading,
+                commercialInvoice,
+                packingList,
+                tradelaneData
+            )
+        )
+
+        val merkleTree2 = MerkleTree.build(
+            listOf(
+                tradelaneData,
+                commercialInvoice,
+                packingList,
+                billOfLading
+            )
+        )
+
+
+        assertEquals(
+            Base64.toBase64String(merkleTree.sha3()),
+            Base64.toBase64String(merkleTree2.sha3()),
+            "Incorrect hash found, comparator not working?"
+        )
     }
 }
