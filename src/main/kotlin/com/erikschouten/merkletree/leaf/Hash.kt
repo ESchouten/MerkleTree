@@ -3,7 +3,7 @@ package com.erikschouten.merkletree.leaf
 import com.erikschouten.merkletree.Merkle
 import org.bouncycastle.util.encoders.Base64
 
-class Hash private constructor(val value: String): Merkle {
+class Hash private constructor(val value: String) : Merkle {
 
     private constructor(bytes: ByteArray) : this(Base64.toBase64String(bytes))
     constructor(merkle: Merkle) : this(merkle.sha3())
