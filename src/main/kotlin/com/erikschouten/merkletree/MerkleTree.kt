@@ -4,7 +4,7 @@ import com.erikschouten.merkletree.leaf.SecureData
 import java.io.Serializable
 import java.util.*
 
-data class MerkleTree(val merkle: Merkle) : Merkle, Serializable {
+data class MerkleTree(val merkle: Merkle) : Merkle {
 
     override fun sha3() = merkle.sha3()
 
