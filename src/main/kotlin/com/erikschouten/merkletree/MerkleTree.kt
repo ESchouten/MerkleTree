@@ -1,9 +1,10 @@
 package com.erikschouten.merkletree
 
 import com.erikschouten.merkletree.leaf.SecureData
+import java.io.Serializable
 import java.util.*
 
-data class MerkleTree(val merkle: Merkle) : Merkle {
+data class MerkleTree(val merkle: Merkle) : Merkle, Serializable {
 
     override fun sha3() = merkle.sha3()
 
