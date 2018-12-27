@@ -5,7 +5,7 @@ import org.bouncycastle.util.encoders.Base64
 
 class Hash private constructor(val value: String) : Merkle {
 
-    private constructor(bytes: ByteArray) : this(Base64.toBase64String(bytes))
+    constructor(bytes: ByteArray) : this(Base64.toBase64String(bytes))
     constructor(merkle: Merkle) : this(merkle.sha3())
 
     override fun sha3() = Base64.decode(value)!!
