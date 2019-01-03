@@ -3,18 +3,18 @@ package com.erikschouten.merkletree
 import com.erikschouten.merkletree.leaf.SecureData
 import java.util.*
 
-data class MerkleTree(val merkle: Merkle) : Merkle {
+data class MerkleTree(val tree: Merkle) : Merkle {
 
-    override fun sha3() = merkle.sha3()
+    override fun sha3() = tree.sha3()
 
     fun contains(merkle: Merkle) = contains(merkle.sha3())
     fun contains(sha3: ByteArray): Boolean {
         val stack = Stack<MerkleNode>()
 
-        if (merkle is MerkleNode) {
-            if (merkle.sha3().contentEquals(sha3)) return true
-            stack.push(merkle)
-        } else if (merkle.sha3().contentEquals(sha3)) {
+        if (tree is MerkleNode) {
+            if (tree.sha3().contentEquals(sha3)) return true
+            stack.push(tree)
+        } else if (tree.sha3().contentEquals(sha3)) {
             return true
         }
 
@@ -38,10 +38,10 @@ data class MerkleTree(val merkle: Merkle) : Merkle {
         val data = mutableListOf<SecureData>()
         val stack = Stack<MerkleNode>()
 
-        if (merkle is MerkleNode) {
-            stack.push(merkle)
-        } else if (merkle is SecureData) {
-            data.add(merkle)
+        if (tree is MerkleNode) {
+            stack.push(tree)
+        } else if (tree is SecureData) {
+            data.add(tree)
         }
 
         while (stack.isNotEmpty()) {

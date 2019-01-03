@@ -1,6 +1,8 @@
 package com.erikschouten.merkletree
 
-interface Merkle : Comparable<Merkle> {
+import java.io.Serializable
+
+interface Merkle : Serializable, Comparable<Merkle> {
     fun sha3(): ByteArray
 
     override fun compareTo(other: Merkle): Int {
